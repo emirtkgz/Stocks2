@@ -52,3 +52,10 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+
+./.qtcreator
+./build
+./include
+./lib
+
+msvc_make.bat
