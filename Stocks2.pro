@@ -1,14 +1,17 @@
 QT += quick
+QT += charts
+QT += gui
 
 CONFIG += c++20
+CONFIG += qmltypes
 
 SOURCES += \
-        src/BackendHelper.cpp \
+        src/BrowsePageHelper.cpp \
         src/main.cpp \
         src/theme.cpp
 
 HEADERS += \
-    src/BackendHelper.hpp \
+    src/BrowsePageHelper.hpp \
     src/theme.hpp
 
 resources.files = \

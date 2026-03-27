@@ -1,0 +1,143 @@
+[
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Singleton",
+                        "value": "true"
+                    },
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "BrowsePageHelper",
+                "lineNumber": 10,
+                "object": true,
+                "qualifiedClassName": "BrowsePageHelper",
+                "slots": [
+                    {
+                        "access": "public",
+                        "index": 0,
+                        "lineNumber": 18,
+                        "name": "uploadSearchModel",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 1,
+                        "lineNumber": 21,
+                        "name": "getSearchModel",
+                        "returnType": "QAbstractItemModel*"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "BrowsePageHelper.hpp",
+        "outputRevision": 69
+    },
+    {
+        "classes": [
+            {
+                "classInfos": [
+                    {
+                        "name": "QML.Element",
+                        "value": "auto"
+                    }
+                ],
+                "className": "Theme",
+                "lineNumber": 8,
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "lineNumber": 14,
+                        "name": "firstColor",
+                        "notify": "firstColorChanged",
+                        "read": "firstColor",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QColor",
+                        "user": false,
+                        "write": "setFirstColor"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "lineNumber": 15,
+                        "name": "secondColor",
+                        "notify": "secondColorChanged",
+                        "read": "secondColor",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QColor",
+                        "user": false,
+                        "write": "setSecondColor"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "lineNumber": 16,
+                        "name": "isDarkTheme",
+                        "notify": "isDarkThemeChanged",
+                        "read": "isDarkTheme",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false,
+                        "write": "setIsDarkTheme"
+                    }
+                ],
+                "qualifiedClassName": "Theme",
+                "signals": [
+                    {
+                        "access": "public",
+                        "index": 0,
+                        "lineNumber": 28,
+                        "name": "firstColorChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 1,
+                        "lineNumber": 29,
+                        "name": "secondColorChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 2,
+                        "lineNumber": 30,
+                        "name": "isDarkThemeChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "theme.hpp",
+        "outputRevision": 69
+    }
+]

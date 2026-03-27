@@ -1,10 +1,10 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 #include "theme.hpp"
 
 int main(int argc, char *argv[]) {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     // Initialize engine
     QQmlApplicationEngine engine;
@@ -24,7 +24,8 @@ int main(int argc, char *argv[]) {
     // Set the theme colors
     Theme mainTheme("StTheme");
     mainTheme.setFirstColor(QColor(31, 31, 31));
-    mainTheme.setSecondColor(QColor(36, 36, 36));
+    mainTheme.setSecondColor(QColor(41, 41, 41));
+    mainTheme.setIsDarkTheme(true);
 
 
 

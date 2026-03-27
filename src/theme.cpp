@@ -2,7 +2,10 @@
 
 #include "Package.hpp"
 
-Theme::Theme(const char* name, QObject* parent) : QObject(parent) {
+Theme::Theme(const char* name, QObject* parent) :
+    QObject(parent),
+    m_isDarkTheme(false)
+{
     // Register this singleton instance in qml
     qmlRegisterSingletonInstance<Theme>(StPackage::name, StPackage::majorVersion, StPackage::minorVersion, name, this);
 }
@@ -31,4 +34,16 @@ void Theme::setSecondColor(const QColor &newSecondColor) {
     m_secondColor = newSecondColor;
 
     emit secondColorChanged();
+}
+
+bool Theme::isDarkTheme() const {
+    return m_isDarkTheme;
+}
+
+void Theme::setIsDarkTheme(bool newIsDarkTheme) {
+    if (m_isDarkTheme == newIsDarkTheme)
+        return;
+
+    m_isDarkTheme = newIsDarkTheme;
+    emit isDarkThemeChanged();
 }

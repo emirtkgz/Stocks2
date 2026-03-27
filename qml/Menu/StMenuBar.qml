@@ -19,7 +19,7 @@ MenuBar {
         title: "Browse"
         MenuAction {
             text: "Browse Symbols"
-            qml_file: "qrc:qml/Pages/Browse.qml"
+            qml_file: "qrc:qml/Pages/Browse/Browse.qml"
         }
         MenuAction {
             text: "Heat Maps"

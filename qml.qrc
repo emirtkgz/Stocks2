@@ -5,6 +5,8 @@
         <file>qml/Menu/StMenuBar.qml</file>
         <file>qml/Menu/MenuAction.qml</file>
         <file>qml/Pages/Portfolio.qml</file>
-        <file>qml/Pages/Browse.qml</file>
+        <file>qml/Pages/Browse/Browse.qml</file>
+        <file>qml/Pages/Browse/BrowseSearchField.qml</file>
+        <file>qml/StyleObjects/StChartView.qml</file>
     </qresource>
 </RCC>
