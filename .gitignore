@@ -53,12 +53,12 @@ compile_commands.json
 
 *_qmlcache.qrc
 
-./.qtcreator
-./build
-./include
-./lib
-./symbols
+.qtcreator/
+build/
+include/
+lib/
+Generated/
 
-./data/database.json
+data/database.json
 
 msvc_make.bat
