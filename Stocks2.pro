@@ -7,11 +7,14 @@ CONFIG += qmltypes
 
 SOURCES += \
         src/BrowsePageHelper.cpp \
+        src/Currencies.cpp \
         src/main.cpp \
         src/theme.cpp
 
 HEADERS += \
     src/BrowsePageHelper.hpp \
+    src/Currencies.hpp \
+    src/InvestmentType.hpp \
     src/theme.hpp
 
 resources.files = \
@@ -37,8 +40,20 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 # Import
 
 INCLUDEPATH += src/
+INCLUDEPATH += include/
 
-CONFIG += qmltypes
+CONFIG(debug, debug|release) {
+    LIBS += -L"$${PWD}/lib/debug"
+} else {
+    LIBS += -L"$${PWD}/lib/release"
+}
+
+LIBS += -lpqxx -lyahoo-finance -llibpq -lWS2_32
+
 
 QML_IMPORT_NAME = Stocks
 QML_IMPORT_MAJOR_VERSION = 1
+
+DISTFILES += \
+    data/database.json \
+    test.json

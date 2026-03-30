@@ -8,5 +8,7 @@
         <file>qml/Pages/Browse/Browse.qml</file>
         <file>qml/Pages/Browse/BrowseSearchField.qml</file>
         <file>qml/StyleObjects/StChartView.qml</file>
+        <file>qml/Pages/Alarms/Alarms.qml</file>
+        <file>qml/StyleObjects/PlusSign.qml</file>
     </qresource>
 </RCC>

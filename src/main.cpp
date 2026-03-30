@@ -3,6 +3,8 @@
 
 #include "theme.hpp"
 
+#include <pqxx/pqxx>
+
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
@@ -26,8 +28,6 @@ int main(int argc, char *argv[]) {
     mainTheme.setFirstColor(QColor(31, 31, 31));
     mainTheme.setSecondColor(QColor(41, 41, 41));
     mainTheme.setIsDarkTheme(true);
-
-
 
 
     engine.load(url);

@@ -38,7 +38,10 @@ MenuBar {
     }
     Menu {
         title: "Alarms"
-        Action {text: "Action"}
+        MenuAction {
+            text: "Alarms"
+            qml_file: "qrc:qml/Pages/Alarms/Alarms.qml"
+        }
     }
     Menu {
         title: "Tools"

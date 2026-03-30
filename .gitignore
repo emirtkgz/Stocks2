@@ -59,4 +59,6 @@ compile_commands.json
 ./lib
 ./symbols
 
+./data/database.json
+
 msvc_make.bat
