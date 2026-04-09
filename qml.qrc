@@ -4,11 +4,14 @@
         <file>qml/Pages/WelcomePage.qml</file>
         <file>qml/Menu/StMenuBar.qml</file>
         <file>qml/Menu/MenuAction.qml</file>
-        <file>qml/Pages/Portfolio.qml</file>
+        <file>qml/Pages/Portfolio/Portfolio.qml</file>
         <file>qml/Pages/Browse/Browse.qml</file>
         <file>qml/Pages/Browse/BrowseSearchField.qml</file>
-        <file>qml/StyleObjects/StChartView.qml</file>
+        <file>qml/StyleObjects/StXYChartView.qml</file>
         <file>qml/Pages/Alarms/Alarms.qml</file>
         <file>qml/StyleObjects/PlusSign.qml</file>
+        <file>qml/StyleObjects/StPage.qml</file>
+        <file>qml/StyleObjects/StPieChartView.qml</file>
+        <file>qml/Pages/Portfolio/PortfolioDelegate.qml</file>
     </qresource>
 </RCC>

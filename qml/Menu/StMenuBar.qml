@@ -32,7 +32,7 @@ MenuBar {
         title: "Portfolio"
         MenuAction {
             text: "My Portfolio"
-            qml_file: "qrc:qml/Pages/Portfolio.qml"
+            qml_file: "qrc:qml/Pages/Portfolio/Portfolio.qml"
         }
         Action {text: "Transactions"}
     }

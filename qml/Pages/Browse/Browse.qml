@@ -40,7 +40,7 @@ Page {
     }
 
     // Chart View
-    StChartView {
+    StXYChartView {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: searchBar.bottom
         anchors.topMargin: 30
