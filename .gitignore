@@ -58,6 +58,9 @@ build/
 include/
 lib/
 Generated/
+dll_release/
+
+*.pem
 
 data/database.json
 

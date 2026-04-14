@@ -1,10 +1,10 @@
 #include "PortfolioPageHelper.hpp"
 
-#include "SQL/PortfolioSQL.hpp"
-
 #include <nlohmann/json.hpp>
 
 #include "InvestmentType.hpp"
+#include "API/StockData.hpp"
+#include "SQL/PortfolioSQL.hpp"
 
 using json = nlohmann::json;
 
@@ -44,9 +44,21 @@ void PortfolioPageHelper::updatePieSlices() {
 
     // Iterate for each entry in portfolio
     for(auto& entry : portfolio) {
+
+        // Fetch the price
+        qreal price;
+
+        try {
+            // Use yfinance to fetch
+            price = StockData::getCurrentPrice(entry["name"]);
+
+        } catch(std::exception e) {
+            // If failed fallback to price in json
+            price = entry["lastPrice"]["price"];
+        }
+
         const InvestmentType type  = entry["type"];
         const qreal amount         = entry["amount"];
-        const qreal price          = entry["lastPrice"]["price"]; // TODO: fetch price from APIs
         const qreal value          = amount * price;
         const std::string currency = entry["currency"]; // TODO: support different currencies
 
@@ -90,10 +102,21 @@ void PortfolioPageHelper::updatePortfolioModel() {
 
     // Create QStandardItem for each entry in portfolio
     for(auto& entry : portfolio_json) {
+
+        // Fetch the price
+        qreal price;
+        try {
+            // Use yfinance to fetch
+            price = StockData::getCurrentPrice(entry["name"]);
+
+        } catch(std::exception e) {
+            // If failed fallback to price in json
+            price = entry["lastPrice"]["price"];
+        }
+
         // Calculate the profit
         const qreal amount    = entry["amount"];
         const qreal avg_price = entry["avg_price"];
-        const qreal price     = entry["lastPrice"]["price"];
         const qreal profit    = amount * (price - avg_price);
 
         // Get the type as a string

@@ -2,11 +2,11 @@
 
 -----------------------------------------------------------------------------------
 - Common Currency Codes (Copyright (c) 2026 Kent Safranski)
+- yfinance-cpp (https://github.com/merckhung/yfinance-cpp forked from https://github.com/puddup/yfinance-cpp)
 -----------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------
 MIT License applies to:
-- yahoo-finance (Copyright (c) 2018 Samy Amraoui)
 - nlohmann-json (Copyright (c) 2013-2026 Niels Lohmann)
 -----------------------------------------------------------------------------------
 MIT License

@@ -7,6 +7,7 @@ CONFIG += c++20
 CONFIG += qmltypes
 
 SOURCES += \
+        src/API/StockData.cpp \
         src/Pages/BrowsePageHelper.cpp \
         src/Currencies.cpp \
         src/Pages/PortfolioPageHelper.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
         src/SQL/SQL.cpp
 
 HEADERS += \
+    src/API/StockData.hpp \
     src/Package.hpp \
     src/Pages/BrowsePageHelper.hpp \
     src/Currencies.hpp \
@@ -23,7 +25,8 @@ HEADERS += \
     src/Pages/PortfolioPageHelper.hpp \
     src/SQL/PortfolioSQL.hpp \
     src/theme.hpp \
-    src/SQL/SQL.hpp
+    src/SQL/SQL.hpp \
+    src/API/StockData.hpp
 
 resources.files = \
         qml/main.qml
@@ -56,7 +59,7 @@ CONFIG(debug, debug|release) {
     LIBS += -L"$${PWD}/lib/release" -llibcurl-imp
 }
 
-LIBS += -lpqxx -lyahoo-finance -llibpq -lWS2_32
+LIBS += -lpqxx -lyfinance -llibpq -lWS2_32 -lcpr
 
 QML_IMPORT_NAME = Stocks
 QML_IMPORT_MAJOR_VERSION = 1

@@ -8,8 +8,9 @@
 #include "Pages/PortfolioPageHelper.hpp"
 #include "Pages/BrowsePageHelper.hpp"
 #include "Package.hpp"
+#include "API/StockData.hpp"
 
-#include <yahoo-finance/quote.hpp>
+#include <yfinance/base.h>
 
 #include <nlohmann/json.hpp>
 
