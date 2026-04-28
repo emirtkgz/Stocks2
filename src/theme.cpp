@@ -1,13 +1,13 @@
 #include "theme.hpp"
 
-#include "Package.hpp"
+#include "StQMLTypes.hpp"
 
 Theme::Theme(const char* name, QObject* parent) :
     QObject(parent),
     m_isDarkTheme(false)
 {
     // Register this singleton instance in qml
-    qmlRegisterSingletonInstance<Theme>(StPackage::name, StPackage::majorVersion, StPackage::minorVersion, name, this);
+    ST_QML_REGISTER_SINGLETON_INSTANCE(Theme, name, this);
 }
 
 QColor Theme::firstColor() const {

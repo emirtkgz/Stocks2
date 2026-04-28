@@ -1,5 +1,7 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include <QtQml/qqmlregistration.h>
 #include <QObject>
 #include <QQmlEngine>
@@ -24,8 +26,9 @@ public:
     void setPortfolioModel(QStandardItemModel *newPortfolioModel);
 
 public slots:
-    void updatePieSlices();
-    void updatePortfolioModel();
+    void updatePage();
+    void updatePieSlices(const nlohmann::json& portfolio);
+    void updatePortfolioModel(const nlohmann::json& portfolio);
 
 private:
     QPieSeries* m_pieSeries              = nullptr;

@@ -12,6 +12,7 @@ SOURCES += \
         src/Currencies.cpp \
         src/Pages/PortfolioPageHelper.cpp \
         src/SQL/PortfolioSQL.cpp \
+        src/Settings.cpp \
         src/main.cpp \
         src/theme.cpp \
         src/SQL/SQL.cpp
@@ -24,6 +25,9 @@ HEADERS += \
     src/InvestmentType.hpp \
     src/Pages/PortfolioPageHelper.hpp \
     src/SQL/PortfolioSQL.hpp \
+    src/Settings.hpp \
+    src/StQMLTypes.hpp \
+    src/Utils/Worker.hpp \
     src/theme.hpp \
     src/SQL/SQL.hpp \
     src/API/StockData.hpp

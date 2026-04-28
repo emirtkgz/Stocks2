@@ -5,16 +5,19 @@
 #include "InvestmentType.hpp"
 #include "API/StockData.hpp"
 #include "SQL/PortfolioSQL.hpp"
+#include "Settings.hpp"
 
 using json = nlohmann::json;
 
 enum PortfolioModelRoles {
-    Name         = Qt::UserRole + 1,
-    Type         = Qt::UserRole + 2,
-    AveragePrice = Qt::UserRole + 3,
-    Currency     = Qt::UserRole + 4,
-    Amount       = Qt::UserRole + 5,
-    Profit       = Qt::UserRole + 6
+    Name           = Qt::UserRole + 1,
+    Type           = Qt::UserRole + 2,
+    AveragePrice   = Qt::UserRole + 3,
+    Currency       = Qt::UserRole + 4,
+    Amount         = Qt::UserRole + 5,
+    Profit         = Qt::UserRole + 6,
+    IsPriceCurrent = Qt::UserRole + 7,
+    Price          = Qt::UserRole + 8
 };
 
 PortfolioPageHelper::PortfolioPageHelper(QObject* parent) :
@@ -24,21 +27,20 @@ PortfolioPageHelper::PortfolioPageHelper(QObject* parent) :
     m_portfolioModel = new QStandardItemModel();
     // Set roles
     m_portfolioModel->setItemRoleNames({
-        {PortfolioModelRoles::Name,         "name"},
-        {PortfolioModelRoles::Type,         "type"},
-        {PortfolioModelRoles::AveragePrice, "averagePrice"},
-        {PortfolioModelRoles::Currency,     "currency"},
-        {PortfolioModelRoles::Amount,       "amount"},
-        {PortfolioModelRoles::Profit,       "profit"}
+        {PortfolioModelRoles::Name,           "name"},
+        {PortfolioModelRoles::Type,           "type"},
+        {PortfolioModelRoles::AveragePrice,   "averagePrice"},
+        {PortfolioModelRoles::Currency,       "currency"},
+        {PortfolioModelRoles::Amount,         "amount"},
+        {PortfolioModelRoles::Profit,         "profit"},
+        {PortfolioModelRoles::IsPriceCurrent, "isPriceCurrent"},
+        {PortfolioModelRoles::Price,          "price"}
     });
 }
 
 PortfolioPageHelper::~PortfolioPageHelper() {}
 
-void PortfolioPageHelper::updatePieSlices() {
-    // Fetch the user's portfolio from database
-    json portfolio = PortfolioSQL::query("Emirtkgz"); // TODO: add login
-
+void PortfolioPageHelper::updatePieSlices(const nlohmann::json& portfolio) {
     std::unordered_map<InvestmentType, qreal> investments;
     qreal total_value = 0;
 
@@ -46,21 +48,24 @@ void PortfolioPageHelper::updatePieSlices() {
     for(auto& entry : portfolio) {
 
         // Fetch the price
-        qreal price;
+        qreal price = entry["lastPrice"]["price"];
 
-        try {
-            // Use yfinance to fetch
-            price = StockData::getCurrentPrice(entry["name"]);
+        // Convert to preferred currency
+        const std::string currency = entry["currency"];
 
-        } catch(std::exception e) {
-            // If failed fallback to price in json
-            price = entry["lastPrice"]["price"];
+        if(currency != Settings::currency) {
+            try {
+                // Use yfinance to fetch
+                qreal parity = StockData::getCurrentPrice(currency + Settings::currency + "=X");
+                price *= parity;
+            } catch(...) {
+                price = 0;
+            }
         }
 
         const InvestmentType type  = entry["type"];
         const qreal amount         = entry["amount"];
         const qreal value          = amount * price;
-        const std::string currency = entry["currency"]; // TODO: support different currencies
 
         // Check if that investment type already exists
         auto it = investments.find(type);
@@ -97,22 +102,13 @@ void PortfolioPageHelper::updatePieSlices() {
     }
 }
 
-void PortfolioPageHelper::updatePortfolioModel() {
-    json portfolio_json = PortfolioSQL::query("Emirtkgz"); // TODO: add login
-
+void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) {
     // Create QStandardItem for each entry in portfolio
-    for(auto& entry : portfolio_json) {
+    for(auto& entry : portfolio) {
 
         // Fetch the price
-        qreal price;
-        try {
-            // Use yfinance to fetch
-            price = StockData::getCurrentPrice(entry["name"]);
-
-        } catch(std::exception e) {
-            // If failed fallback to price in json
-            price = entry["lastPrice"]["price"];
-        }
+        qreal price = entry["lastPrice"]["price"];
+        bool isPriceCurrent = true; // TODO: handle this
 
         // Calculate the profit
         const qreal amount    = entry["amount"];
@@ -128,15 +124,25 @@ void PortfolioPageHelper::updatePortfolioModel() {
 
         // Fill the item
         QStandardItem* item = new QStandardItem();
-        item->setData(name,       PortfolioModelRoles::Name);
-        item->setData(type,       PortfolioModelRoles::Type);
-        item->setData(avg_price,  PortfolioModelRoles::AveragePrice);
-        item->setData(currency,   PortfolioModelRoles::Currency);
-        item->setData(amount,     PortfolioModelRoles::Amount);
-        item->setData(profit,     PortfolioModelRoles::Profit);
+        item->setData(name,           PortfolioModelRoles::Name);
+        item->setData(type,           PortfolioModelRoles::Type);
+        item->setData(avg_price,      PortfolioModelRoles::AveragePrice);
+        item->setData(currency,       PortfolioModelRoles::Currency);
+        item->setData(amount,         PortfolioModelRoles::Amount);
+        item->setData(profit,         PortfolioModelRoles::Profit);
+        item->setData(isPriceCurrent, PortfolioModelRoles::IsPriceCurrent);
+        item->setData(price,          PortfolioModelRoles::Price);
 
         m_portfolioModel->appendRow(item);
     }
+}
+
+
+void PortfolioPageHelper::updatePage() {
+    auto portfolio = PortfolioSQL::query(Settings::username);
+
+    updatePieSlices(portfolio);
+    updatePortfolioModel(portfolio);
 }
 
 // ~~ Q_PROPERTY Setters/Getters ~~
@@ -155,4 +161,5 @@ QStandardItemModel *PortfolioPageHelper::portfolioModel() const {
 void PortfolioPageHelper::setPortfolioModel(QStandardItemModel* newPortfolioModel) {
     m_portfolioModel = newPortfolioModel;
 }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

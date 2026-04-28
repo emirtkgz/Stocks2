@@ -5,23 +5,24 @@
 #include "theme.hpp"
 #include "SQL/SQL.hpp"
 #include "SQL/PortfolioSQL.hpp"
-#include "Pages/PortfolioPageHelper.hpp"
-#include "Pages/BrowsePageHelper.hpp"
-#include "Package.hpp"
 #include "API/StockData.hpp"
+#include "Settings.hpp"
+#include "API/StockData.hpp"
+#include "StQMLTypes.hpp"
+#include "Utils/Worker.hpp"
 
-#include <yfinance/base.h>
+#include <yfinance/hpp/base.h>
+#include <yfinance/hpp/symbols.h>
 
 #include <nlohmann/json.hpp>
 
 #include <fstream>
 
+#define PRICE_UPDATER_FREQ 10s
+
 using json = nlohmann::json;
 
-void registerQMLTypes() {
-    qmlRegisterType<PortfolioPageHelper>(StPackage::name, StPackage::majorVersion, StPackage::minorVersion, "PortfolioPageHelper");
-    qmlRegisterType<BrowsePageHelper>   (StPackage::name, StPackage::majorVersion, StPackage::minorVersion, "BrowserPageHelper");
-}
+using namespace std::chrono_literals;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
@@ -68,17 +69,27 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    std::ifstream test_fs("./data/test.json");
-    json test_json = json::parse(test_fs);
+    // Load the user settings
+    Settings::loadSettings("./data/settings.json");
 
-    //PortfolioSQL::upsert("Emirtkgz", test_json.dump());
+    // Timer loop to update the portfolio concurrently
+    Worker priceUpdater(10s, []{
+        qDebug() << "Updated portfolio";
+        PortfolioSQL::updateLastPrice(Settings::username);
+    });
+
+    {
+        std::ifstream test_fs("./data/test.json");
+        json test_json = json::parse(test_fs);
+
+        //PortfolioSQL::upsert("Emirtkgz", test_json.dump());
+    }
 
     // Set the theme colors
     Theme mainTheme("StTheme");
     mainTheme.setFirstColor(QColor(31, 31, 31));
     mainTheme.setSecondColor(QColor(41, 41, 41));
     mainTheme.setIsDarkTheme(true);
-
 
     engine.load(url);
 
