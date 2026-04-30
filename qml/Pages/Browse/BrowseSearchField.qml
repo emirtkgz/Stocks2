@@ -7,7 +7,9 @@ import Stocks
 SearchField {
     id: symbolSearch
 
-    Component.onCompleted: BrowsePageHelper.uploadSearchModel()
+    required property BrowsePageHelper helper
+
+    Component.onCompleted: helper.uploadSearchModel()
 
     onActivated: {
         SearchSymbols.setCode(symbolSearch.text)
@@ -16,7 +18,7 @@ SearchField {
 
     suggestionModel: SortFilterProxyModel {
         id: filterModel
-        model: BrowsePageHelper.getSearchModel()
+        model: helper.getSearchModel()
         sorters: [
             RoleSorter {
                 roleName: "code"

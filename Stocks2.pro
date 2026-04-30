@@ -24,9 +24,11 @@ HEADERS += \
     src/Currencies.hpp \
     src/InvestmentType.hpp \
     src/Pages/PortfolioPageHelper.hpp \
+    src/PriceUpdater.hpp \
     src/SQL/PortfolioSQL.hpp \
     src/Settings.hpp \
     src/StQMLTypes.hpp \
+    src/Utils/ISIN.hpp \
     src/Utils/Worker.hpp \
     src/theme.hpp \
     src/SQL/SQL.hpp \
@@ -63,7 +65,7 @@ CONFIG(debug, debug|release) {
     LIBS += -L"$${PWD}/lib/release" -llibcurl-imp
 }
 
-LIBS += -lpqxx -lyfinance -llibpq -lWS2_32 -lcpr
+LIBS += -lpqxx -lyfinance -llibpq -lWS2_32 -lcpr -llua-5.4.4
 
 QML_IMPORT_NAME = Stocks
 QML_IMPORT_MAJOR_VERSION = 1

@@ -4,22 +4,24 @@
 
 #include <memory>
 
+#define Currencies _Currencies::getInstance()
+
 // Singleton instance used to check global currencies
 // Original json file: https://gist.github.com/ksafranski/2973986
-class Currencies {
+class _Currencies {
 public:
-    Currencies();
-    ~Currencies() = default;
+    _Currencies();
+    ~_Currencies() = default;
 
     static const nlohmann::json& getInstance();
 
     // Remove copy semantics
-    Currencies(const Currencies& i)            = delete;
-    Currencies& operator=(const Currencies& i) = delete;
+    _Currencies(const _Currencies& i)            = delete;
+    _Currencies& operator=(const _Currencies& i) = delete;
 
     // Remove move semantics
-    Currencies(Currencies&& i)            noexcept = delete;
-    Currencies& operator=(Currencies&& i) noexcept = delete;
+    _Currencies(_Currencies&& i)            noexcept = delete;
+    _Currencies& operator=(_Currencies&& i) noexcept = delete;
 private:
     static std::unique_ptr<const nlohmann::json> json_object;
 };

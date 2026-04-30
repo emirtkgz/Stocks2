@@ -10,15 +10,19 @@
 #include "API/StockData.hpp"
 #include "StQMLTypes.hpp"
 #include "Utils/Worker.hpp"
+#include "PriceUpdater.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
 
 #include <nlohmann/json.hpp>
 
+#define SOL_ALL_SAFETIES_ON 1
+#include <sol/sol.hpp>
+
 #include <fstream>
 
-#define PRICE_UPDATER_FREQ 10s
+#define ST_PRICE_UPDATER_FREQ 30s
 
 using json = nlohmann::json;
 
@@ -40,7 +44,8 @@ int main(int argc, char *argv[]) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
         },
-        Qt::QueuedConnection);
+        Qt::QueuedConnection
+    );
 
     // Register QML Types
     registerQMLTypes();
@@ -72,11 +77,6 @@ int main(int argc, char *argv[]) {
     // Load the user settings
     Settings::loadSettings("./data/settings.json");
 
-    // Timer loop to update the portfolio concurrently
-    Worker priceUpdater(10s, []{
-        qDebug() << "Updated portfolio";
-        PortfolioSQL::updateLastPrice(Settings::username);
-    });
 
     {
         std::ifstream test_fs("./data/test.json");
@@ -84,12 +84,30 @@ int main(int argc, char *argv[]) {
 
         //PortfolioSQL::upsert("Emirtkgz", test_json.dump());
     }
+    {
+        std::ifstream fs("./data/test2.json");
+        json test_json = json::parse(fs);
+
+        //PortfolioSQL::set(Settings::username, test_json.dump());
+        //PortfolioSQL::remove(Settings::username, -1);
+    }
+
+    // Timer loop to update the portfolio
+    Worker priceUpdater(ST_PRICE_UPDATER_FREQ, []{
+        qDebug() << "Updated portfolio";
+        PriceUpdater::updateLastPrice(Settings::username);
+    });
 
     // Set the theme colors
     Theme mainTheme("StTheme");
     mainTheme.setFirstColor(QColor(31, 31, 31));
     mainTheme.setSecondColor(QColor(41, 41, 41));
     mainTheme.setIsDarkTheme(true);
+
+    // Lua demo
+    sol::state lua;
+    lua.open_libraries(sol::lib::base, sol::lib::package);
+    lua.script("print('bark bark bark!')");
 
     engine.load(url);
 

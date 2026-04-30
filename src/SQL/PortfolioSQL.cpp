@@ -56,43 +56,44 @@ nlohmann::json PortfolioSQL::query(std::string_view username) {
     }
 }
 
-nlohmann::json PortfolioSQL::updateLastPrice(std::string_view username) {
-    // Get the current portfolio json
-    json portfolio = query(username);
+void PortfolioSQL::set(std::string_view username, std::string_view json_data) {
+    try {
+        // Lock the connection so multiple threads won't try to access it at the same time
+        std::unique_lock<std::mutex> lock(mutex);
 
-    std::vector<std::string> codes;
-    // Get the symbol codes into a vector
-    for(auto& entry : portfolio) {
-        codes.push_back(entry["name"]);
+        pqxx::work tx{*connection};
+
+        tx.exec("UPDATE \"Portfolios\"        \
+                SET \"Data\" = \"Data\" || $2 \
+                WHERE \"Username\" = $1",
+
+            pqxx::params(username, json_data)
+        );
+
+        tx.commit();
+    } catch (std::exception exception) {
+        qWarning() << "Warning: Failed to set element to database Portfolio (" << exception.what() << ")";
     }
-
-    // Get the current price of each symbol
-    yfinance::Symbols symbols(codes);
-    auto summaries = symbols.get_summaries("price");
-
-    for(auto& summary : summaries) {
-        // Skip if symbol could not be fetched
-        if(summary.empty())
-            continue;
-
-        const std::string& name = summary["symbol"];
-        time_t lastUpdated      = summary["regularMarketTime"];
-        qreal price             = summary["regularMarketPrice"]["raw"];
-
-        // Update the portfolio object
-        for (auto& entry : portfolio) {
-            if (entry["name"] == name) {
-                entry["lastPrice"]["price"]       = price;
-                entry["lastPrice"]["lastUpdated"] = lastUpdated;
-                break;
-            }
-        }
-    }
-
-    // Update the database
-    upsert(username, portfolio.dump());
-
-    // Return the json for further use
-    return portfolio;
 }
+
+void PortfolioSQL::remove(std::string_view username, intmax_t index) {
+    try {
+        // Lock the connection so multiple threads won't try to access it at the same time
+        std::unique_lock<std::mutex> lock(mutex);
+
+        pqxx::work tx{*connection};
+
+        tx.exec("UPDATE \"Portfolios\"            \
+                SET \"Data\" = \"Data\" - $2::int \
+                WHERE \"Username\" = $1",
+
+                pqxx::params(username, index)
+        );
+
+        tx.commit();
+    } catch (std::exception exception) {
+        qWarning() << "Warning: Failed to remove element at index" << index << "in database Portfolio (" << exception.what() << ")";
+    }
+}
+
 

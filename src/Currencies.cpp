@@ -6,16 +6,16 @@
 
 using json = nlohmann::json;
 
-std::unique_ptr<const nlohmann::json> Currencies::json_object;
+std::unique_ptr<const nlohmann::json> _Currencies::json_object;
 
-Currencies::Currencies() {
+_Currencies::_Currencies() {
     std::ifstream fs("./data/currencies.json");
 
     json_object = std::make_unique<json>(json::parse(fs));
 }
 
-const nlohmann::json& Currencies::getInstance() {
-    static Currencies instance;
+const nlohmann::json& _Currencies::getInstance() {
+    static _Currencies instance;
 
     return *json_object;
 }

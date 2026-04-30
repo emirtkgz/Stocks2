@@ -3,6 +3,7 @@
 #include <chrono>
 #include <future>
 
+// A class to do concurrent work while the application runs
 class Worker {
 public:
     template<class F, class ...Args>
@@ -11,22 +12,22 @@ public:
     {
         // Launch an async task
         result = std::async([this, f = std::forward<F>(f), ...args = std::forward<Args>(args)]{
-              auto next_tick = std::chrono::steady_clock::now() + this->duration;
+            auto next_tick = std::chrono::steady_clock::now() + this->duration;
 
-              // Check if worker should run
-              while(is_running) {
-                  // Invoke the function
-                  std::invoke(f, args...);
+            // Check if worker should run
+            while(is_running) {
+                // Invoke the function
+                std::invoke(f, args...);
 
-                  // Wait until the next tick
-                  {
-                      std::unique_lock<std::mutex> lock(mutex);
-                      cv.wait_until(lock, next_tick);
-                  }
+                // Wait until the next tick
+                {
+                    std::unique_lock<std::mutex> lock(mutex);
+                    cv.wait_until(lock, next_tick);
+                }
 
-                  next_tick += this->duration;
-              }
-          });
+                next_tick += this->duration;
+            }
+        });
     }
 
     ~Worker() {
@@ -37,6 +38,14 @@ public:
         // Wait for the thread to close
         result.wait();
     }
+
+    // Delete copy sematics
+    Worker(Worker& w)           = delete;
+    Worker operator=(Worker& w) = delete;
+
+    // Delete move sematics
+    Worker(Worker&& w)           = delete;
+    Worker operator=(Worker&& w) = delete;
 
 private:
     std::chrono::duration<uint64_t> duration;

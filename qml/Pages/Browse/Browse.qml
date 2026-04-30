@@ -7,6 +7,13 @@ import Stocks
 import "../../StyleObjects"
 
 Page {
+    BrowsePageHelper {
+        id: helper
+
+        // Set the series to update in C++ side
+        candleSeries: series
+        interval: "1d"
+    }
 
     background: Rectangle {
         anchors.fill: parent
@@ -29,12 +36,19 @@ Page {
         color: StTheme.secondColor
 
         BrowseSearchField {
+            id: searchField
+            helper: helper
+
             anchors.fill: parent
             anchors.leftMargin: 10
             anchors.rightMargin: 10
 
             background: Rectangle {
                 color: "transparent"
+            }
+
+            onAccepted: {
+                helper.updateSeries(searchField.text)
             }
         }
     }
@@ -50,26 +64,21 @@ Page {
 
         ValueAxis {
             id: axisY
+            max: 250
+            min: 180
         }
 
         DateTimeAxis {
             id: axisX
+            max: new Date(2026, 4, 30)
+            min: new Date(2026, 3, 30)
         }
 
-        LineSeries {
-            id: lineSeries
+        CandlestickSeries {
+            id: series
             name: "series"
             axisX: axisX
             axisY: axisY
-
-            XYPoint {
-                x: new Date(2026, 3, 24)
-                y: 10
-            }
-            XYPoint {
-                x: new Date(2026, 3, 26)
-                y: 20
-            }
         }
     }
 
