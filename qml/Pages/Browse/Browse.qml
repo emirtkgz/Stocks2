@@ -12,12 +12,36 @@ Page {
 
         // Set the series to update in C++ side
         candleSeries: series
+        period: "1mo"
         interval: "1d"
+        valueAxis: axisY
+        dateAxis: axisX
     }
 
     background: Rectangle {
         anchors.fill: parent
         color: StTheme.firstColor
+    }
+
+    // Period buttons
+    Row {
+        anchors.bottom: chartView.top
+        anchors.right: chartView.right
+
+        Repeater {
+            id: repeater
+            // [period, interval]
+            model: [ ["10m", "1m"], ["30m", "2m"], ["1h", "5m"], ["24h", "30m"], ["7d", "1d"], ["1mo", "1d"], ["1y", "1d"], ["5y", "1d"], ["10y", "1wk"] ]
+            Button {
+                required property var modelData
+                text: modelData[0]
+                onClicked: {
+                    helper.period   = modelData[0]
+                    helper.interval = modelData[1]
+                    helper.updateSeries()
+                }
+            }
+        }
     }
 
     // Search Bar
@@ -46,15 +70,12 @@ Page {
             background: Rectangle {
                 color: "transparent"
             }
-
-            onAccepted: {
-                helper.updateSeries(searchField.text)
-            }
         }
     }
 
     // Chart View
     StXYChartView {
+        id: chartView
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: searchBar.bottom
         anchors.topMargin: 30
@@ -64,21 +85,27 @@ Page {
 
         ValueAxis {
             id: axisY
-            max: 250
-            min: 180
+            max: 100
+            min: 0
         }
 
         DateTimeAxis {
             id: axisX
-            max: new Date(2026, 4, 30)
-            min: new Date(2026, 3, 30)
+            max: new Date(2026, 5, 1)
+            min: new Date(2025, 5, 1)
+            format: "dd-MM-yyyy"
+
         }
 
         CandlestickSeries {
             id: series
-            name: "series"
+            name: "Browse Anything"
+
             axisX: axisX
             axisY: axisY
+
+            decreasingColor: "red"
+            increasingColor: "green"
         }
     }
 

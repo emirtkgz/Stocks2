@@ -9,31 +9,23 @@ SearchField {
 
     required property BrowsePageHelper helper
 
-    Component.onCompleted: helper.uploadSearchModel()
-
-    onActivated: {
-        SearchSymbols.setCode(symbolSearch.text)
-        SearchSymbols.update(searchSymbolChart.series("series"), axisX, axisY, 0)
+    onTextEdited: {
+        helper.uploadSearchModel(symbolSearch.text)
     }
 
-    suggestionModel: SortFilterProxyModel {
-        id: filterModel
-        model: helper.getSearchModel()
-        sorters: [
-            RoleSorter {
-                roleName: "code"
-            }
-        ]
-        filters: [
-            FunctionFilter {
-                component CustomData: QtObject { property string code }
-                property var regExp: new RegExp(symbolSearch.text, "i")
-                onRegExpChanged: invalidate()
+    suggestionModel: helper.getSearchModel()
+    delegate: ItemDelegate {
 
-                function filter(data: CustomData): bool {
-                    return regExp.test(data.code);
-                }
-            }
-        ]
+        onClicked: helper.updateSeries(symbol)
+
+        background: Rectangle {
+            color: StTheme.secondColor
+        }
+
+        Text {
+            text: symbol
+            color: "white"
+        }
     }
+
 }

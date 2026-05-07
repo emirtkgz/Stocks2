@@ -11,6 +11,7 @@
 #include "StQMLTypes.hpp"
 #include "Utils/Worker.hpp"
 #include "PriceUpdater.hpp"
+#include "Utils/Utils.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
@@ -76,7 +77,6 @@ int main(int argc, char *argv[]) {
 
     // Load the user settings
     Settings::loadSettings("./data/settings.json");
-
 
     {
         std::ifstream test_fs("./data/test.json");

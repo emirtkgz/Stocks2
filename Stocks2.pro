@@ -29,6 +29,7 @@ HEADERS += \
     src/Settings.hpp \
     src/StQMLTypes.hpp \
     src/Utils/ISIN.hpp \
+    src/Utils/Utils.hpp \
     src/Utils/Worker.hpp \
     src/theme.hpp \
     src/SQL/SQL.hpp \
