@@ -3,7 +3,9 @@ import QtQuick.Controls
 
 import Stocks
 
-Page {
+import "../StyleObjects"
+
+StPage {
     id: welcomePage
     anchors.fill: parent
 
@@ -14,11 +16,6 @@ Page {
         font.bold: true
         font.pointSize: 50
         color: "white"
-    }
-
-    background: Rectangle {
-        anchors.fill: parent
-        color: StTheme.firstColor
     }
 }
 

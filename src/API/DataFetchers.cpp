@@ -1,4 +1,4 @@
-#include "StockData.hpp"
+#include "DataFetchers.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
@@ -7,7 +7,7 @@
 
 #include <QDebug>
 
-qreal StockData::getCurrentPrice(const std::string& code) {
+qreal DataFetchers::getCurrentPrice(const std::string& code) {
     // Create a ticker object
     auto tk = std::make_unique<yfinance::Symbol>(code);
 
@@ -17,7 +17,7 @@ qreal StockData::getCurrentPrice(const std::string& code) {
     return quoteSummary["regularMarketPrice"]["raw"];
 }
 
-std::unordered_map<std::string, qreal> StockData::getCurrentPrices(const std::vector<std::string>& codes) {
+std::unordered_map<std::string, qreal> DataFetchers::getCurrentPrices(const std::vector<std::string>& codes) {
     yfinance::Symbols symbols(codes);
 
     auto quoteSummaries = symbols.get_summaries("price");
@@ -34,7 +34,7 @@ std::unordered_map<std::string, qreal> StockData::getCurrentPrices(const std::ve
     return data;
 }
 
-std::unordered_map<std::string, qreal> StockData::getCurrentPrices(const nlohmann::json& portfolio) {
+std::unordered_map<std::string, qreal> DataFetchers::getCurrentPrices(const nlohmann::json& portfolio) {
     std::vector<std::string> codes;
 
     for(const auto& entry: portfolio) {

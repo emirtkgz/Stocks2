@@ -1,13 +1,14 @@
 QT += quick
 QT += charts
 QT += gui
-QT += sql
 
 CONFIG += c++20
 CONFIG += qmltypes
 
 SOURCES += \
-        src/API/StockData.cpp \
+        src/API/DataFetchers.cpp \
+        src/API/QuoteData.cpp \
+        src/Lua/LuaAPI.cpp \
         src/Pages/BrowsePageHelper.cpp \
         src/Currencies.cpp \
         src/Pages/PortfolioPageHelper.cpp \
@@ -18,7 +19,11 @@ SOURCES += \
         src/SQL/SQL.cpp
 
 HEADERS += \
-    src/API/StockData.hpp \
+    src/API/DataFetchers.hpp \
+    src/API/DataFetchers.hpp \
+    src/API/QuoteData.hpp \
+    src/Lua/LuaAPI.hpp \
+    src/Lua/LuaFunctions.hpp \
     src/Package.hpp \
     src/Pages/BrowsePageHelper.hpp \
     src/Currencies.hpp \
@@ -32,9 +37,9 @@ HEADERS += \
     src/Utils/Utils.hpp \
     src/Utils/Worker.hpp \
     src/theme.hpp \
-    src/SQL/SQL.hpp \
-    src/API/StockData.hpp
+    src/SQL/SQL.hpp
 
+# -- Resources --
 resources.files = \
         qml/main.qml
 
@@ -42,6 +47,14 @@ resources.prefix = /
 
 RESOURCES += resources \
     qml.qrc
+
+# ----------------
+
+DISTFILES += \
+    data/database.json \
+    lua/StState.lua \
+    src/Lua/StState.lua \
+    test.json
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -54,12 +67,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-# Import
-
+# Includes
 INCLUDEPATH += src/
 INCLUDEPATH += src/Pages
 INCLUDEPATH += include/
 
+# Libs
 CONFIG(debug, debug|release) {
     LIBS += -L"$${PWD}/lib/debug" -llibcurl-d_imp
 } else {
@@ -68,9 +81,9 @@ CONFIG(debug, debug|release) {
 
 LIBS += -lpqxx -lyfinance -llibpq -lWS2_32 -lcpr -llua-5.4.4
 
+# QML Import
 QML_IMPORT_NAME = Stocks
 QML_IMPORT_MAJOR_VERSION = 1
 
-DISTFILES += \
-    data/database.json \
-    test.json
+# Preprocessor Definitions
+DEFINES += NOMINMAX

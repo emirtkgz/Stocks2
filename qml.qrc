@@ -13,5 +13,7 @@
         <file>qml/StyleObjects/StPage.qml</file>
         <file>qml/StyleObjects/StPieChartView.qml</file>
         <file>qml/Pages/Portfolio/PortfolioDelegate.qml</file>
+        <file>qml/Pages/Alarms/AddAlarmBar.qml</file>
+        <file>qml/StyleObjects/CloseButton.qml</file>
     </qresource>
 </RCC>

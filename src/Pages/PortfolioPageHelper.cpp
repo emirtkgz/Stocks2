@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 
 #include "InvestmentType.hpp"
-#include "API/StockData.hpp"
+#include "API/DataFetchers.hpp"
 #include "SQL/PortfolioSQL.hpp"
 #include "Settings.hpp"
 
@@ -56,7 +56,7 @@ void PortfolioPageHelper::updatePieSlices(const nlohmann::json& portfolio) {
         if(currency != Settings::currency) {
             try {
                 // Use yfinance to fetch
-                qreal parity = StockData::getCurrentPrice(currency + Settings::currency + "=X");
+                qreal parity = DataFetchers::getCurrentPrice(currency + Settings::currency + "=X");
                 price *= parity;
             } catch(...) {
                 price = 0;

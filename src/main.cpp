@@ -5,13 +5,14 @@
 #include "theme.hpp"
 #include "SQL/SQL.hpp"
 #include "SQL/PortfolioSQL.hpp"
-#include "API/StockData.hpp"
+#include "API/DataFetchers.hpp"
 #include "Settings.hpp"
-#include "API/StockData.hpp"
+#include "API/DataFetchers.hpp"
 #include "StQMLTypes.hpp"
 #include "Utils/Worker.hpp"
 #include "PriceUpdater.hpp"
 #include "Utils/Utils.hpp"
+#include "API/QuoteData.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
@@ -94,7 +95,7 @@ int main(int argc, char *argv[]) {
 
     // Timer loop to update the portfolio
     Worker priceUpdater(ST_PRICE_UPDATER_FREQ, []{
-        qDebug() << "Updated portfolio";
+        qDebug() << "Updating portfolio...";
         PriceUpdater::updateLastPrice(Settings::username);
     });
 
@@ -103,11 +104,6 @@ int main(int argc, char *argv[]) {
     mainTheme.setFirstColor(QColor(31, 31, 31));
     mainTheme.setSecondColor(QColor(41, 41, 41));
     mainTheme.setIsDarkTheme(true);
-
-    // Lua demo
-    sol::state lua;
-    lua.open_libraries(sol::lib::base, sol::lib::package);
-    lua.script("print('bark bark bark!')");
 
     engine.load(url);
 

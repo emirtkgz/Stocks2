@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtCharts
 
+// A Custom ChartView object to be used for XYSeries and CandleStickSeries
 ChartView {
     id: chartView
 

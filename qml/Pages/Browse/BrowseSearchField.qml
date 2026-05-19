@@ -9,9 +9,11 @@ SearchField {
 
     required property BrowsePageHelper helper
 
-    onTextEdited: {
-        helper.uploadSearchModel(symbolSearch.text)
-    }
+    // Update the series when enter is pressed
+    Keys.onReturnPressed: helper.updateSeries(symbolSearch.text)
+
+    // Upload the search model whenever something is typed
+    onTextEdited: helper.uploadSearchModel(symbolSearch.text)
 
     suggestionModel: helper.getSearchModel()
     delegate: ItemDelegate {

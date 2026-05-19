@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace StockData {
+namespace DataFetchers {
 
     // Uses Yahoo Finance API to fetch data
     qreal getCurrentPrice(const std::string& code);

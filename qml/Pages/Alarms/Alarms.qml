@@ -5,44 +5,60 @@ import Stocks
 
 import "../../StyleObjects"
 
-Page {
+StPage {
     id: alarmsPage
     anchors.fill: parent
 
-    Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        padding: 50
-        text: "Alarms"
-        font.bold: true
-        font.pointSize: 50
-        color: "green"
-    }
-
-    background: Rectangle {
-        anchors.fill: parent
-        color: StTheme.firstColor
-    }
-
     ScrollView {
-        x: 220
-        y: 140
-        width: 200
-        height: 200
+        anchors.fill: parent
+        contentWidth: availableWidth
 
-        ListView {
-            model: 20
-            delegate: ItemDelegate {
-                text: "Item " + index
+        Column {
+            anchors.fill: parent
+            spacing: 10
 
-                required property int index
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Alarms"
+                font.bold: true
+                font.pointSize: 30
+                color: "white"
+            }
+
+            AddAlarmBar {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 10 / 12
+                barHeight: 30
+                spacing: 10
+            }
+
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: StTheme.secondColor
+                width: parent.width * 10 / 12
+                height: 600
+
+                ListView {
+                    id: alarmsList
+                    anchors.fill: parent
+                    interactive: false
+
+                    model: 20
+                    delegate: ItemDelegate {
+                        text: "Item " + index
+                        background: Rectangle {
+                            color: "transparent"
+                        }
+
+                        required property int index
+                    }
+                }
             }
         }
     }
 
-    PlusSign {
-        width: 20
-        height: 60
-    }
+
+
 
 }
 

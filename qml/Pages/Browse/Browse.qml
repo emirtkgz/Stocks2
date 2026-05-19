@@ -6,7 +6,7 @@ import Stocks
 
 import "../../StyleObjects"
 
-Page {
+StPage {
     BrowsePageHelper {
         id: helper
 
@@ -18,18 +18,12 @@ Page {
         dateAxis: axisX
     }
 
-    background: Rectangle {
-        anchors.fill: parent
-        color: StTheme.firstColor
-    }
-
     // Period buttons
     Row {
         anchors.bottom: chartView.top
         anchors.right: chartView.right
 
         Repeater {
-            id: repeater
             // [period, interval]
             model: [ ["10m", "1m"], ["30m", "2m"], ["1h", "5m"], ["24h", "30m"], ["7d", "1d"], ["1mo", "1d"], ["1y", "1d"], ["5y", "1d"], ["10y", "1wk"] ]
             Button {
