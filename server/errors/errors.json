@@ -1,0 +1,32 @@
+[
+    {
+        "code": 0,
+        "name": "Success",
+        "what": "Request is successful"
+    },
+    {  
+        "code": 1,
+        "name": "Value_Exists",
+        "what": "Given value already exists"
+    },
+    {  
+        "code": 2,
+        "name": "Value_Not_Exists",
+        "what": "Given value does not exists"
+    },
+    {  
+        "code": 3,
+        "name": "Invalid_Access_Token",
+        "what": "Given access token is invalid"
+    },
+    {  
+        "code": 4,
+        "name": "Token_Expired",
+        "what": "Given token has expired"
+    },
+    {  
+        "code": 5,
+        "name": "Invalid_Input",
+        "what": "Given input(s) is(are) invalid"
+    }
+]
