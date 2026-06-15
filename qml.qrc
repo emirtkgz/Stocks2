@@ -15,5 +15,7 @@
         <file>qml/Pages/Portfolio/PortfolioDelegate.qml</file>
         <file>qml/Pages/Alarms/AddAlarmBar.qml</file>
         <file>qml/StyleObjects/CloseButton.qml</file>
+        <file>qml/Pages/WatchLists/WatchLists.qml</file>
+        <file>qml/Pages/Login/Login.qml</file>
     </qresource>
 </RCC>

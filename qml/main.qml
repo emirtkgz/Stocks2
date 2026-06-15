@@ -4,6 +4,7 @@ import QtQuick
 
 import "Menu"
 import "Pages"
+import "Pages/Login"
 
 ApplicationWindow {
     id: mainWindow
@@ -19,7 +20,7 @@ ApplicationWindow {
 
         anchors.fill: parent
 
-        initialItem: WelcomePage {}
+        initialItem: Login{}
     }
 
     // The MenuBar

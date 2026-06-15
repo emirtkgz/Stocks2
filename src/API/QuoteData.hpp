@@ -98,6 +98,8 @@ public:
 
     void reserve(size_t size);
 
+    static QuoteData interpolate(const QuoteData& data, const std::string& new_interval);
+
     // QuoteData (op) float overloads
     _NEW_QUOTEDATA_OP_FLOAT(+)
     _NEW_QUOTEDATA_OP_FLOAT(-)

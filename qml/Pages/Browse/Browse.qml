@@ -74,11 +74,14 @@ StPage {
         anchors.top: searchBar.bottom
         anchors.topMargin: 30
 
+        antialiasing: false
+
         width: parent.width * 4 / 5
         height: parent.height * 2 / 3
 
         ValueAxis {
             id: axisY
+
             max: 100
             min: 0
         }
@@ -94,6 +97,7 @@ StPage {
         CandlestickSeries {
             id: series
             name: "Browse Anything"
+            useOpenGL: true
 
             axisX: axisX
             axisY: axisY

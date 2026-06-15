@@ -1,13 +1,22 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls
+import QtCharts
 
 import Stocks
 
 import "../../StyleObjects"
 
 StPage {
-    id: alarmsPage
+    id: watchListsPage
     anchors.fill: parent
+
+    WatchListsPageHelper {
+        id: helper
+        Component.onCompleted: {
+            helper.updateWatchLists()
+            console.log(helper.watchLists.length)
+        }
+    }
 
     ScrollView {
         anchors.fill: parent
@@ -18,18 +27,9 @@ StPage {
             spacing: 10
 
             Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "Alarms"
-                font.bold: true
-                font.pointSize: 30
                 color: "white"
-            }
-
-            AddAlarmBar {
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * 10 / 12
-                barHeight: 30
-                spacing: 10
+                font.pixelSize: 50
+                text: "Hello There"
             }
 
             Rectangle {
@@ -38,8 +38,18 @@ StPage {
                 width: parent.width * 10 / 12
                 height: 600
 
+                Repeater {
+                    model: helper.watchLists.length
+                    Rectangle {
+                        width: 100; height: 40
+                        border.width: 1
+                        color: "yellow"
+                    }
+                }
+
+                /*
                 ListView {
-                    id: alarmsList
+                    id: watchLists
                     anchors.fill: parent
                     interactive: false
 
@@ -53,10 +63,9 @@ StPage {
                         required property int index
                     }
                 }
+                */
             }
         }
     }
 }
-
-
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtTypes>
+#include <QDebug>
 
 #include <nlohmann/json.hpp>
 #include <yfinance/hpp/symbols.h>
@@ -27,50 +28,62 @@ namespace PriceUpdater {
     nlohmann::json updateLastPrice(std::string_view username) {
         // Lock between query and upsert so no data race
         std::unique_lock lock(mutex);
-        // Get the current portfolio json
-        nlohmann::json portfolio = PortfolioSQL::query(username);
 
-        std::vector<std::string> codes;
-        std::vector<std::string> bonds;
+        try {
+            // Get the current portfolio json
+            nlohmann::json portfolio = PortfolioSQL::query(username);
 
-        // Get the symbol codes into 2 vectors (One for bonds and one for the rest)
-        for(auto& entry : portfolio) {
-            InvestmentType type = entry["type"];
-            if(type == InvestmentType::BONDS) {
-                bonds.push_back(entry["name"]);
+            // Return if failed catch the portfolio so upsert won't corrupt it further
+            if(portfolio.is_null() || portfolio.empty()) {
+                return nlohmann::json();
             }
-            else {
-                codes.push_back(entry["name"]);
-            }
-        }
 
-        // Get the current price of each symbol
-        yfinance::Symbols symbols(codes);
-        auto summaries = symbols.get_summaries("price");
+            std::vector<std::string> codes;
+            std::vector<std::string> bonds;
 
-        for(auto& summary : summaries) {
-            // Skip if symbol could not be fetched
-            if(summary.empty())
-                continue;
-
-            const std::string& name = summary["symbol"];
-            time_t lastUpdated      = summary["regularMarketTime"];
-            qreal price             = summary["regularMarketPrice"]["raw"];
-
-            // Update the portfolio object
-            for (auto& entry : portfolio) {
-                if (entry["name"] == name) {
-                    entry["lastPrice"]["price"]       = price;
-                    entry["lastPrice"]["lastUpdated"] = lastUpdated;
-                    break;
+            // Get the symbol codes into 2 vectors (One for bonds and one for the rest)
+            for(auto& entry : portfolio) {
+                InvestmentType type = entry["type"];
+                if(type == InvestmentType::BONDS) {
+                    bonds.push_back(entry["name"]);
+                }
+                else {
+                    codes.push_back(entry["name"]);
                 }
             }
+
+            // Get the current price of each symbol
+            yfinance::Symbols symbols(codes);
+            auto summaries = symbols.get_summaries("price");
+
+            for(auto& summary : summaries) {
+                // Skip if symbol could not be fetched
+                if(summary.empty())
+                    continue;
+
+                const std::string& name = summary["symbol"];
+                time_t lastUpdated      = summary["regularMarketTime"];
+                qreal price             = summary["regularMarketPrice"]["raw"];
+
+                // Update the portfolio object
+                for (auto& entry : portfolio) {
+                    if (entry["name"] == name) {
+                        entry["lastPrice"]["price"]       = price;
+                        entry["lastPrice"]["lastUpdated"] = lastUpdated;
+                        break;
+                    }
+                }
+            }
+
+            // Update the database
+            PortfolioSQL::upsert(username, portfolio.dump());
+
+            // Return the json for further use
+            return portfolio;
         }
-
-        // Update the database
-        PortfolioSQL::upsert(username, portfolio.dump());
-
-        // Return the json for further use
-        return portfolio;
+        catch(std::exception e) {
+            qDebug() << "Failed to update the portfolio, error: " << e.what();
+            return nlohmann::json();
+        }
     }
 }

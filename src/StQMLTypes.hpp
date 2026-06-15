@@ -6,7 +6,8 @@
 
 // --- Types ---
 #include "Pages/BrowsePageHelper.hpp"
-#include "PortfolioPageHelper.hpp"
+#include "Pages/PortfolioPageHelper.hpp"
+#include "Pages/WatchListsPageHelper.hpp"
 // -------------
 
 #define ST_QML_REGISTER_TYPE(Type, Name) \
@@ -16,6 +17,7 @@
     qmlRegisterSingletonInstance<Type>(StPackage::name, StPackage::majorVersion, StPackage::minorVersion, Name, Instance)
 
 inline void registerQMLTypes() {
-    ST_QML_REGISTER_TYPE(PortfolioPageHelper, "PortfolioPageHelper");
-    ST_QML_REGISTER_TYPE(BrowsePageHelper,    "BrowsePageHelper");
+    ST_QML_REGISTER_TYPE(PortfolioPageHelper,  "PortfolioPageHelper");
+    ST_QML_REGISTER_TYPE(BrowsePageHelper,     "BrowsePageHelper");
+    ST_QML_REGISTER_TYPE(WatchListsPageHelper, "WatchListsPageHelper");
 }

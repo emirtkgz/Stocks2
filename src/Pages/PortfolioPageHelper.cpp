@@ -4,7 +4,7 @@
 
 #include "InvestmentType.hpp"
 #include "API/DataFetchers.hpp"
-#include "SQL/PortfolioSQL.hpp"
+#include "API/ServerAPI.hpp"
 #include "Settings.hpp"
 
 using json = nlohmann::json;
@@ -139,10 +139,21 @@ void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) 
 
 
 void PortfolioPageHelper::updatePage() {
-    auto portfolio = PortfolioSQL::query(Settings::username);
+    auto r = ServerAPI.get("api/portfolio/data");
 
-    updatePieSlices(portfolio);
-    updatePortfolioModel(portfolio);
+    // Error handling
+    if(r.contains("error")) {
+        if(r["error"]["code"] != 0) {
+            qWarning() << "Server API returned with error(" << r["error"]["code"].dump() << "): " << r["error"]["what"].dump();
+            return;
+        }
+    } else {
+        qWarning() << "Failed to get portfolio data!";
+        return;
+    }
+
+    updatePieSlices(r["Data"]);
+    updatePortfolioModel(r["Data"]);
 }
 
 // ~~ Q_PROPERTY Setters/Getters ~~

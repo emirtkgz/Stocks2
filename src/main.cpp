@@ -5,6 +5,7 @@
 #include "theme.hpp"
 #include "SQL/SQL.hpp"
 #include "SQL/PortfolioSQL.hpp"
+#include "SQL/WatchListsSQL.hpp"
 #include "API/DataFetchers.hpp"
 #include "Settings.hpp"
 #include "API/DataFetchers.hpp"
@@ -13,6 +14,8 @@
 #include "PriceUpdater.hpp"
 #include "Utils/Utils.hpp"
 #include "API/QuoteData.hpp"
+#include "Currencies.hpp"
+#include "API/ServerAPI.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
@@ -83,7 +86,7 @@ int main(int argc, char *argv[]) {
         std::ifstream test_fs("./data/test.json");
         json test_json = json::parse(test_fs);
 
-        //PortfolioSQL::upsert("Emirtkgz", test_json.dump());
+        PortfolioSQL::upsert("Emirtkgz", test_json.dump());
     }
     {
         std::ifstream fs("./data/test2.json");
@@ -92,12 +95,22 @@ int main(int argc, char *argv[]) {
         //PortfolioSQL::set(Settings::username, test_json.dump());
         //PortfolioSQL::remove(Settings::username, -1);
     }
+    {
+        std::ifstream fs("./data/test3.json");
+        json test_json = json::parse(fs);
 
+        //WatchListsSQL::upsert("Emirtkgz", test_json.dump());
+    }
+
+    // DEPRECATED WILL BE MOVED TO SERVER SIDE
     // Timer loop to update the portfolio
     Worker priceUpdater(ST_PRICE_UPDATER_FREQ, []{
         qDebug() << "Updating portfolio...";
         PriceUpdater::updateLastPrice(Settings::username);
     });
+
+    // TODO: Implement login page
+    ServerAPI.login("Emirtkgz", "password123");
 
     // Set the theme colors
     Theme mainTheme("StTheme");

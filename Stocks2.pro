@@ -8,11 +8,14 @@ CONFIG += qmltypes
 SOURCES += \
         src/API/DataFetchers.cpp \
         src/API/QuoteData.cpp \
+        src/API/ServerAPI.cpp \
         src/Lua/LuaAPI.cpp \
         src/Pages/BrowsePageHelper.cpp \
         src/Currencies.cpp \
         src/Pages/PortfolioPageHelper.cpp \
+        src/Pages/WatchListsPageHelper.cpp \
         src/SQL/PortfolioSQL.cpp \
+        src/SQL/WatchListsSQL.cpp \
         src/Settings.cpp \
         src/main.cpp \
         src/theme.cpp \
@@ -22,6 +25,7 @@ HEADERS += \
     src/API/DataFetchers.hpp \
     src/API/DataFetchers.hpp \
     src/API/QuoteData.hpp \
+    src/API/ServerAPI.hpp \
     src/Lua/LuaAPI.hpp \
     src/Lua/LuaFunctions.hpp \
     src/Package.hpp \
@@ -29,11 +33,14 @@ HEADERS += \
     src/Currencies.hpp \
     src/InvestmentType.hpp \
     src/Pages/PortfolioPageHelper.hpp \
+    src/Pages/WatchListsPageHelper.hpp \
     src/PriceUpdater.hpp \
     src/SQL/PortfolioSQL.hpp \
+    src/SQL/WatchListsSQL.hpp \
     src/Settings.hpp \
     src/StQMLTypes.hpp \
     src/Utils/ISIN.hpp \
+    src/Utils/JSON.hpp \
     src/Utils/Utils.hpp \
     src/Utils/Worker.hpp \
     src/theme.hpp \
@@ -51,10 +58,8 @@ RESOURCES += resources \
 # ----------------
 
 DISTFILES += \
-    data/database.json \
     lua/StState.lua \
     src/Lua/StState.lua \
-    test.json
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -79,11 +84,19 @@ CONFIG(debug, debug|release) {
     LIBS += -L"$${PWD}/lib/release" -llibcurl-imp
 }
 
-LIBS += -lpqxx -lyfinance -llibpq -lWS2_32 -lcpr -llua-5.4.4
+LIBS += -lpqxx -lyfinance -llibpq -lcpr -llua-5.4.4
+
+# WinAPI Libs
+win32 {
+    LIBS += -lAdvapi32 -lWS2_32
+}
 
 # QML Import
 QML_IMPORT_NAME = Stocks
 QML_IMPORT_MAJOR_VERSION = 1
 
 # Preprocessor Definitions
-DEFINES += NOMINMAX
+win32 {
+    DEFINES += NOMINMAX
+}
+

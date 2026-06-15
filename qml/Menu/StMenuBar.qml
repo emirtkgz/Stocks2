@@ -22,6 +22,10 @@ MenuBar {
             qml_file: "qrc:qml/Pages/Browse/Browse.qml"
         }
         MenuAction {
+            text: "Watch Lists"
+            qml_file: "qrc:qml/Pages/WatchLists/WatchLists.qml"
+        }
+        MenuAction {
             text: "Heat Maps"
         }
         MenuAction {

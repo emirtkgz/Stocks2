@@ -34,6 +34,10 @@ void QuoteData::reserve(size_t size) {
     m_volume.reserve(size);
 }
 
+QuoteData QuoteData::interpolate(const QuoteData &data, const std::string &new_interval) {
+    return QuoteData();
+}
+
 
 QuoteData::QuoteData(size_t size) {
     reserve(size);
