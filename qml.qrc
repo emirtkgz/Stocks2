@@ -17,5 +17,10 @@
         <file>qml/StyleObjects/CloseButton.qml</file>
         <file>qml/Pages/WatchLists/WatchLists.qml</file>
         <file>qml/Pages/Login/Login.qml</file>
+        <file>qml/StyleObjects/StIcon.qml</file>
+        <file>qml/Pages/Portfolio/AddEntryPopup.qml</file>
+        <file>qml/StyleObjects/StEditButton.qml</file>
+        <file>qml/StyleObjects/StTickButton.qml</file>
+        <file>qml/StyleObjects/StTextInput.qml</file>
     </qresource>
 </RCC>

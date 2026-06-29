@@ -8,7 +8,7 @@ import postgres from "postgres";
 // Import routers
 import login from "./auth/login.js"
 import register from "./auth/register.js"
-import portfolio from "./api/portfolio.js"
+import portfolio from "./api/portfolio/portfolio.js"
 
 // Login to database
 import sql from "./sql.js"

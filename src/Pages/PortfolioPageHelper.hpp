@@ -29,6 +29,8 @@ public slots:
     void updatePage();
     void updatePieSlices(const nlohmann::json& portfolio);
     void updatePortfolioModel(const nlohmann::json& portfolio);
+    void patchNewData(QJSValue data);
+    void putNewData(QJSValue data);
 
 private:
     QPieSeries* m_pieSeries              = nullptr;

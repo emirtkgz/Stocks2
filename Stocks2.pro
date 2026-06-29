@@ -53,6 +53,7 @@ resources.files = \
 resources.prefix = /
 
 RESOURCES += resources \
+    icons.qrc \
     qml.qrc
 
 # ----------------

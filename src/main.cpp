@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
         std::ifstream test_fs("./data/test.json");
         json test_json = json::parse(test_fs);
 
-        PortfolioSQL::upsert("Emirtkgz", test_json.dump());
+        //PortfolioSQL::upsert("Emirtkgz", test_json.dump());
     }
     {
         std::ifstream fs("./data/test2.json");

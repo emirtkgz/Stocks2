@@ -13,6 +13,8 @@ public:
 
     static nlohmann::json get(const std::string& api_point, cpr::Parameters parameters = {});
     static nlohmann::json post(const std::string& api_point, cpr::Body body = {});
+    static nlohmann::json put(const std::string& api_point, cpr::Body body = {});
+    static nlohmann::json patch(const std::string& api_point, cpr::Body body = {});
     static nlohmann::json login(const std::string& username, const std::string& password);
 
     static std::string JWT;

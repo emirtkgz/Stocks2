@@ -19,12 +19,14 @@ router.post("/login", async (req, res) => {
     // Check if username and password are correctly provided
     if(!username || !password) {
         res.status(400).json({error: errors[5]})
+        return
     }
 
     // Check if user exists
-    var userExists = await sql`SELECT EXISTS(SELECT 1 FROM "Users" WHERE "Username" = ${username})`
+    var userExists = (await sql`SELECT EXISTS(SELECT 1 FROM "Users" WHERE "Username" = ${username})`)[0]["exists"]
     if(!userExists) {
         res.status(400).json({error: errors[2]})
+        return
     }
 
     // Get user password hash and check if it is correct
@@ -33,6 +35,7 @@ router.post("/login", async (req, res) => {
     var isCorrectPassword = bcrypt.compareSync(password, hash)
     if(!isCorrectPassword) {
         res.status(400).json({error: errors[2]})
+        return
     }
 
     // Create a Json Web Token once everything is correct

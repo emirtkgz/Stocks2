@@ -6,6 +6,7 @@
 #include "API/DataFetchers.hpp"
 #include "API/ServerAPI.hpp"
 #include "Settings.hpp"
+#include "Utils/JSON.hpp"
 
 using json = nlohmann::json;
 
@@ -52,7 +53,6 @@ void PortfolioPageHelper::updatePieSlices(const nlohmann::json& portfolio) {
 
         // Convert to preferred currency
         const std::string currency = entry["currency"];
-
         if(currency != Settings::currency) {
             try {
                 // Use yfinance to fetch
@@ -103,6 +103,9 @@ void PortfolioPageHelper::updatePieSlices(const nlohmann::json& portfolio) {
 }
 
 void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) {
+    // Clear the previous data (if any)
+    m_portfolioModel->clear();
+
     // Create QStandardItem for each entry in portfolio
     for(auto& entry : portfolio) {
 
@@ -137,6 +140,21 @@ void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) 
     }
 }
 
+// Patches data in server API whenever user edits the portfolio data
+void PortfolioPageHelper::patchNewData(QJSValue data) {
+    auto string_data = qjsvalueToNlohmann(data).dump();
+
+    ServerAPI.patch("api/portfolio/data", cpr::Body{string_data});
+    updatePage();
+}
+
+// Put a new entry to the server API
+void PortfolioPageHelper::putNewData(QJSValue data) {
+    auto string_data = qjsvalueToNlohmann(data).dump();
+
+    ServerAPI.put("api/portfolio/data", cpr::Body{string_data});
+    updatePage();
+}
 
 void PortfolioPageHelper::updatePage() {
     auto r = ServerAPI.get("api/portfolio/data");

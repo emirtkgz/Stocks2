@@ -17,12 +17,14 @@ router.post("/register", async (req, res) => {
     // Check if username and password are correctly provided
     if(!username || !password) {
         res.status(400).json({error: errors[5]})
+        return
     }
 
     // Check if username already exists
-    var userExists = await sql`SELECT EXISTS(SELECT 1 FROM "Users" WHERE "Username" = ${username})`
+    var userExists = (await sql`SELECT EXISTS(SELECT 1 FROM "Users" WHERE "Username" = ${username})`)[0]["exists"]
     if(userExists) {
         res.status(400).json({error: errors[1]})
+        return
     }
 
     // Generate a 10 iteration salt for the user
