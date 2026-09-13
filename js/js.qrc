@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/js">
+        <file>string-to-color.js</file>
+    </qresource>
+</RCC>

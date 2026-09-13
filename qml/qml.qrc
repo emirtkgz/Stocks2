@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>Pages/WelcomePage.qml</file>
+        <file>Menu/StMenuBar.qml</file>
+        <file>Menu/MenuAction.qml</file>
+        <file>Pages/Portfolio/Portfolio.qml</file>
+        <file>Pages/Browse/Browse.qml</file>
+        <file>Pages/Browse/BrowseSearchField.qml</file>
+        <file>StyleObjects/StXYChartView.qml</file>
+        <file>Pages/Alarms/Alarms.qml</file>
+        <file>StyleObjects/PlusSign.qml</file>
+        <file>StyleObjects/StPage.qml</file>
+        <file>StyleObjects/StPieChartView.qml</file>
+        <file>Pages/Portfolio/PortfolioDelegate.qml</file>
+        <file>Pages/Alarms/AddAlarmBar.qml</file>
+        <file>StyleObjects/CloseButton.qml</file>
+        <file>Pages/WatchLists/WatchLists.qml</file>
+        <file>Pages/Login/Login.qml</file>
+        <file>StyleObjects/StIcon.qml</file>
+        <file>Pages/Portfolio/AddEntryPopup.qml</file>
+        <file>StyleObjects/StEditButton.qml</file>
+        <file>StyleObjects/StTickButton.qml</file>
+        <file>StyleObjects/StTextInput.qml</file>
+        <file>Pages/Alarms/AlarmDelegate.qml</file>
+        <file>StyleObjects/HorizontalLine.qml</file>
+    </qresource>
+</RCC>
