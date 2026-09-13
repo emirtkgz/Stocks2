@@ -17,7 +17,8 @@ public:
     static nlohmann::json patch(const std::string& api_point, cpr::Body body = {});
     static nlohmann::json login(const std::string& username, const std::string& password);
 
-    static std::string JWT;
+    static bool checkErrors(const nlohmann::json& res);
+
     static inline constexpr std::string_view base_url = "http://localhost:3000/";
 
     // Remove copy semantics
@@ -29,4 +30,6 @@ public:
     _ServerAPI& operator=(_ServerAPI&& i) noexcept = delete;
 private:
     _ServerAPI();
+
+    static std::string JWT;
 };

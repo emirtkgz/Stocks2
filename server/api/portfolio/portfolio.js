@@ -1,6 +1,4 @@
 import express from "express"
-import jwt from "jsonwebtoken"
-import bcrypt from "bcryptjs"
 
 import { authenticate } from "../../auth.js"
 import errors from "../../errors/errors.json" with {type: 'json'}

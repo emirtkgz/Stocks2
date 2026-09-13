@@ -18,7 +18,8 @@ enum PortfolioModelRoles {
     Amount         = Qt::UserRole + 5,
     Profit         = Qt::UserRole + 6,
     IsPriceCurrent = Qt::UserRole + 7,
-    Price          = Qt::UserRole + 8
+    Price          = Qt::UserRole + 8,
+    ProfitPercent  = Qt::UserRole + 9
 };
 
 PortfolioPageHelper::PortfolioPageHelper(QObject* parent) :
@@ -35,7 +36,8 @@ PortfolioPageHelper::PortfolioPageHelper(QObject* parent) :
         {PortfolioModelRoles::Amount,         "amount"},
         {PortfolioModelRoles::Profit,         "profit"},
         {PortfolioModelRoles::IsPriceCurrent, "isPriceCurrent"},
-        {PortfolioModelRoles::Price,          "price"}
+        {PortfolioModelRoles::Price,          "price"},
+        {PortfolioModelRoles::ProfitPercent,  "profitPercent"}
     });
 }
 
@@ -114,9 +116,11 @@ void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) 
         bool isPriceCurrent = true; // TODO: handle this
 
         // Calculate the profit
-        const qreal amount    = entry["amount"];
-        const qreal avg_price = entry["avg_price"];
-        const qreal profit    = amount * (price - avg_price);
+        const qreal amount         = entry["amount"];
+        const qreal avg_price      = entry["avg_price"];
+        const qreal unit_profit    = (price - avg_price);
+        const qreal profit         = amount * unit_profit;
+        const qreal profit_percent = unit_profit / avg_price * 100;
 
         // Get the type as a string
         const QString type = QString::fromStdString(InvestmentTypeLookup(entry["type"]));
@@ -135,6 +139,7 @@ void PortfolioPageHelper::updatePortfolioModel(const nlohmann::json& portfolio) 
         item->setData(profit,         PortfolioModelRoles::Profit);
         item->setData(isPriceCurrent, PortfolioModelRoles::IsPriceCurrent);
         item->setData(price,          PortfolioModelRoles::Price);
+        item->setData(profit_percent, PortfolioModelRoles::ProfitPercent);
 
         m_portfolioModel->appendRow(item);
     }
@@ -159,16 +164,8 @@ void PortfolioPageHelper::putNewData(QJSValue data) {
 void PortfolioPageHelper::updatePage() {
     auto r = ServerAPI.get("api/portfolio/data");
 
-    // Error handling
-    if(r.contains("error")) {
-        if(r["error"]["code"] != 0) {
-            qWarning() << "Server API returned with error(" << r["error"]["code"].dump() << "): " << r["error"]["what"].dump();
-            return;
-        }
-    } else {
-        qWarning() << "Failed to get portfolio data!";
+    if(ServerAPI.checkErrors(r))
         return;
-    }
 
     updatePieSlices(r["Data"]);
     updatePortfolioModel(r["Data"]);

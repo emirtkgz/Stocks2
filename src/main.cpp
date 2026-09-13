@@ -106,16 +106,19 @@ int main(int argc, char *argv[]) {
     // Timer loop to update the portfolio
     Worker priceUpdater(ST_PRICE_UPDATER_FREQ, []{
         qDebug() << "Updating portfolio...";
-        PriceUpdater::updateLastPrice(Settings::username);
+        PriceUpdater::updateLastPrice("DAX_Port");
     });
 
     // TODO: Implement login page
-    ServerAPI.login("Emirtkgz", "password123");
+    ServerAPI.login("DAX_Port", "password123");
 
+    // TODO: Add theme files
     // Set the theme colors
     Theme mainTheme("StTheme");
     mainTheme.setFirstColor(QColor(31, 31, 31));
     mainTheme.setSecondColor(QColor(41, 41, 41));
+    mainTheme.setHeaderTextColor(QColor(255, 255, 255));
+    mainTheme.setBodyTextColor(QColor(127, 127, 127));
     mainTheme.setIsDarkTheme(true);
 
     engine.load(url);

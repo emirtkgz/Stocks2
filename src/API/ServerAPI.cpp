@@ -85,4 +85,22 @@ nlohmann::json _ServerAPI::login(const std::string& username, const std::string&
     return r;
 }
 
+/*
+ * Error handling
+ * Returns true when an error occured, false otherwise
+*/
+bool _ServerAPI::checkErrors(const nlohmann::json& res) {
+    if(res.contains("error")) {
+        if(res["error"]["code"] != 0) {
+            qWarning() << "Server API returned with error(" << res["error"]["code"].dump() << "): " << res["error"]["what"].dump();
+            return true;
+        }
+    } else {
+        qWarning() << "Failed to fetch data from Server API!";
+        return true;
+    }
+
+    return false;
+}
+
 

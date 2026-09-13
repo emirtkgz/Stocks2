@@ -2,7 +2,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick
 
-import "Menu"
+import "./Menu"
 import "Pages"
 import "Pages/Login"
 

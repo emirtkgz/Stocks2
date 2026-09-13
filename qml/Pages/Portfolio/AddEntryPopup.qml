@@ -57,16 +57,10 @@ Rectangle {
                 required property var modelData
                 property alias text: textInput.text
 
-                Text {
-                    id: labelText
-                    text: qsTr(modelData) + ": "
-                    font.pixelSize: 20
-                    color: "gray"
-                }
-
                 StTextInput {
                     id: textInput
 
+                    baseText: qsTr(modelData) + ": "
                     font.pixelSize: 20
                     color: "gray"
                     width: Math.max(80, Math.min(contentWidth + 10, addEntryPopup.width - 100))  // min: 80, max: addEntryPopup.width - 100

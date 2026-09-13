@@ -8,6 +8,7 @@
 #include "Pages/BrowsePageHelper.hpp"
 #include "Pages/PortfolioPageHelper.hpp"
 #include "Pages/WatchListsPageHelper.hpp"
+#include "Pages/AlarmsPageHelper.hpp"
 // -------------
 
 #define ST_QML_REGISTER_TYPE(Type, Name) \
@@ -20,4 +21,5 @@ inline void registerQMLTypes() {
     ST_QML_REGISTER_TYPE(PortfolioPageHelper,  "PortfolioPageHelper");
     ST_QML_REGISTER_TYPE(BrowsePageHelper,     "BrowsePageHelper");
     ST_QML_REGISTER_TYPE(WatchListsPageHelper, "WatchListsPageHelper");
+    ST_QML_REGISTER_TYPE(AlarmsPageHelper,     "AlarmsPageHelper");
 }

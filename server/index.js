@@ -9,6 +9,7 @@ import postgres from "postgres";
 import login from "./auth/login.js"
 import register from "./auth/register.js"
 import portfolio from "./api/portfolio/portfolio.js"
+import alarms from './api/alarms/alarms.js';
 
 // Login to database
 import sql from "./sql.js"
@@ -22,6 +23,7 @@ app.use("/auth", login)
 app.use("/auth", register)
 
 app.use("/api/portfolio", portfolio)
+app.use("/api/alarms", alarms)
 // ---------------------
 
 app.listen(process.env.PORT, async () => {

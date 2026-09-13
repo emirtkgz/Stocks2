@@ -10,6 +10,7 @@ SOURCES += \
         src/API/QuoteData.cpp \
         src/API/ServerAPI.cpp \
         src/Lua/LuaAPI.cpp \
+        src/Pages/AlarmsPageHelper.cpp \
         src/Pages/BrowsePageHelper.cpp \
         src/Currencies.cpp \
         src/Pages/PortfolioPageHelper.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     src/Lua/LuaAPI.hpp \
     src/Lua/LuaFunctions.hpp \
     src/Package.hpp \
+    src/Pages/AlarmsPageHelper.hpp \
     src/Pages/BrowsePageHelper.hpp \
     src/Currencies.hpp \
     src/InvestmentType.hpp \
@@ -47,18 +49,15 @@ HEADERS += \
     src/SQL/SQL.hpp
 
 # -- Resources --
-resources.files = \
-        qml/main.qml
-
-resources.prefix = /
-
-RESOURCES += resources \
-    icons.qrc \
-    qml.qrc
+RESOURCES += \
+    icons/icons.qrc \
+    js/js.qrc \
+    qml/qml.qrc
 
 # ----------------
 
 DISTFILES += \
+    js/string-to-color.js \
     lua/StState.lua \
     src/Lua/StState.lua \
 

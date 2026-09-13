@@ -9,6 +9,12 @@ StPage {
     id: alarmsPage
     anchors.fill: parent
 
+    AlarmsPageHelper {
+        id: pageHelper
+    }
+
+    Component.onCompleted: pageHelper.updateAlarmsList()
+
     ScrollView {
         anchors.fill: parent
         contentWidth: availableWidth
@@ -26,32 +32,32 @@ StPage {
             }
 
             AddAlarmBar {
+                helper: pageHelper
+
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 10 / 12
                 barHeight: 30
                 spacing: 10
             }
 
-            Rectangle {
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: StTheme.secondColor
+            ListView {
+                id: alarmsList
+
                 width: parent.width * 10 / 12
-                height: 600
+                height: contentHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                interactive: false
 
-                ListView {
-                    id: alarmsList
+                // Background
+                Rectangle {
                     anchors.fill: parent
-                    interactive: false
+                    color: StTheme.secondColor
+                    z: -1
+                }
 
-                    model: 20
-                    delegate: ItemDelegate {
-                        text: "Item " + index
-                        background: Rectangle {
-                            color: "transparent"
-                        }
-
-                        required property int index
-                    }
+                model: pageHelper.alarmsList
+                delegate: AlarmDelegate {
+                    width: alarmsList.width
                 }
             }
         }

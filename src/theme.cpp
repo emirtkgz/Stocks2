@@ -47,3 +47,25 @@ void Theme::setIsDarkTheme(bool newIsDarkTheme) {
     m_isDarkTheme = newIsDarkTheme;
     emit isDarkThemeChanged();
 }
+
+QColor Theme::headerTextColor() const {
+    return m_headerTextColor;
+}
+
+void Theme::setHeaderTextColor(const QColor &newHeaderTextColor) {
+    if (m_headerTextColor == newHeaderTextColor)
+        return;
+    m_headerTextColor = newHeaderTextColor;
+    emit headerTextColorChanged();
+}
+
+QColor Theme::bodyTextColor() const {
+    return m_bodyTextColor;
+}
+
+void Theme::setBodyTextColor(const QColor &newBodyTextColor) {
+    if (m_bodyTextColor == newBodyTextColor)
+        return;
+    m_bodyTextColor = newBodyTextColor;
+    emit bodyTextColorChanged();
+}
