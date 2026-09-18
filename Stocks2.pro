@@ -18,6 +18,7 @@ SOURCES += \
         src/SQL/PortfolioSQL.cpp \
         src/SQL/WatchListsSQL.cpp \
         src/Settings.cpp \
+        src/Workers/AlarmChecker.cpp \
         src/main.cpp \
         src/theme.cpp \
         src/SQL/SQL.cpp
@@ -45,6 +46,7 @@ HEADERS += \
     src/Utils/JSON.hpp \
     src/Utils/Utils.hpp \
     src/Utils/Worker.hpp \
+    src/Workers/AlarmChecker.hpp \
     src/theme.hpp \
     src/SQL/SQL.hpp
 

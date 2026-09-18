@@ -33,4 +33,20 @@ namespace StUtils {
 
         return value * it->second;
     }
+
+    // Checks if number x is within range (a, b)
+    static bool isInRange(double x, double a, double b) {
+        double low  = std::min(a, b);
+        double high = std::max(a, b);
+
+        return ((x > low) && (x < high));
+    }
+
+    // Checks if number x is within range [a, b]
+    static bool isInRangeEx(double x, double a, double b) {
+        double low  = std::min(a, b);
+        double high = std::max(a, b);
+
+        return ((x >= low) && (x <= high));
+    }
 }

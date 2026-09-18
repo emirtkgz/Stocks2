@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtLogging>
+#include <QSystemTrayIcon>
 
 #include "theme.hpp"
 #include "SQL/SQL.hpp"
@@ -16,6 +17,7 @@
 #include "API/QuoteData.hpp"
 #include "Currencies.hpp"
 #include "API/ServerAPI.hpp"
+#include "Workers/AlarmChecker.hpp"
 
 #include <yfinance/hpp/base.h>
 #include <yfinance/hpp/symbols.h>
@@ -35,6 +37,7 @@ using namespace std::chrono_literals;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icons/icon.ico"));
 
     // Initialize engine
     QQmlApplicationEngine engine;
@@ -112,6 +115,8 @@ int main(int argc, char *argv[]) {
     // TODO: Implement login page
     ServerAPI.login("DAX_Port", "password123");
 
+    AlarmChecker alarmChecker(&engine);
+
     // TODO: Add theme files
     // Set the theme colors
     Theme mainTheme("StTheme");
@@ -120,6 +125,8 @@ int main(int argc, char *argv[]) {
     mainTheme.setHeaderTextColor(QColor(255, 255, 255));
     mainTheme.setBodyTextColor(QColor(127, 127, 127));
     mainTheme.setIsDarkTheme(true);
+
+
 
     engine.load(url);
 

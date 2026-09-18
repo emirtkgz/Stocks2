@@ -1,3 +1,5 @@
+// TODO: Add documentation
+
 // Configure .env
 import dotenv from "dotenv"
 dotenv.config()

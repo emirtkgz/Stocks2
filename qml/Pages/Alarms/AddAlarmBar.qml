@@ -61,10 +61,11 @@ Column {
                     anchors.topMargin: 10
                     onClicked: {
                         helper.postNewAlarm({
-                            "code":           repeater.itemAt(0).text,
+                            "ticker":         repeater.itemAt(0).text,
                             "type":  parseInt(repeater.itemAt(1).text),
                             "value": parseInt(repeater.itemAt(2).text),
-                            "message":        repeater.itemAt(3).text
+                            "message":        repeater.itemAt(3).text,
+                            "is_on":          true
                         })
                     }
                 }
@@ -72,7 +73,7 @@ Column {
             // Values
             Repeater {
                 id: repeater
-                model: ["Code", "Type", "Value", "Message"]
+                model: ["Ticker", "Type", "Value", "Message"]
                 delegate: Row {
                     id: repeaterDelegate
 

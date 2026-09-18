@@ -9,7 +9,7 @@ import "../../StyleObjects"
 ItemDelegate {
     id: delegate
 
-    required property string code
+    required property string ticker
     required property real type
     required property real value
     required property string message
@@ -26,7 +26,7 @@ ItemDelegate {
         spacing: 5
 
         Text {
-            text: code
+            text: ticker
             font.pixelSize: 20
             color: StTheme.headerTextColor
             leftPadding: 20
